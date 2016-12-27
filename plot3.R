@@ -28,9 +28,10 @@ df <-
 tsMeas = dmy(df$Date) + hms(df$Time)
 df <- cbind(df, tsMeas)
 
-# plot 1 - histogram Global Active Power
+# plot 3 - Energy sub metering x datetime
+# differentiate 3 measurements by color
 png(
-  filename = "plot1.png",
+  filename = "plot3.png",
   width = 480,
   height = 480,
   units = "px",
@@ -41,15 +42,22 @@ png(
   restoreConsole = TRUE,
   type = c("windows", "cairo", "cairo-png")
 )
-with(
-  df,
-  hist(
-    Global_active_power,
-    col = "red",
-    breaks = 12,
-    main = "Global Active Power",
-    xlab = "Global Active Power (kilowatts)"
-  )
+with (df,
+      plot(
+        tsMeas,
+        Sub_metering_1,
+        type = "n",
+        ylab = "Energy sub metering",
+        xlab = ""
+      ))
+with(df, lines(tsMeas, Sub_metering_1, col = "black"))
+with(df, lines(tsMeas, Sub_metering_2, col = "red"))
+with(df, lines(tsMeas, Sub_metering_3, col = "blue"))
+legend(
+  "topright",
+  col = c("black", "red", "blue"),
+  legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"),
+  lty = 1
 )
 dev.off()
 

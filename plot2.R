@@ -28,9 +28,9 @@ df <-
 tsMeas = dmy(df$Date) + hms(df$Time)
 df <- cbind(df, tsMeas)
 
-# plot 1 - histogram Global Active Power
+# plot 2 - Global Active Power x datetime
 png(
-  filename = "plot1.png",
+  filename = "plot2.png",
   width = 480,
   height = 480,
   units = "px",
@@ -41,15 +41,16 @@ png(
   restoreConsole = TRUE,
   type = c("windows", "cairo", "cairo-png")
 )
-with(
+with (
   df,
-  hist(
+  plot(
+    tsMeas,
     Global_active_power,
-    col = "red",
-    breaks = 12,
-    main = "Global Active Power",
-    xlab = "Global Active Power (kilowatts)"
+    type = "n",
+    ylab = "Global Active Power (kilowatts)",
+    xlab = ""
   )
 )
+with (df, lines(tsMeas, Global_active_power))
 dev.off()
 
